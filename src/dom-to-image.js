@@ -161,11 +161,17 @@
 
         function newCanvas(domNode) {
             var canvas = document.createElement('canvas');
-            canvas.width = options.width || util.width(domNode);
-            canvas.height = options.height || util.height(domNode);
+            var ctx = canvas.getContext('2d');
+            ctx.mozImageSmoothingEnabled = false;
+            ctx.webkitImageSmoothingEnabled = false;
+            ctx.msImageSmoothingEnabled = false;
+            ctx.imageSmoothingEnabled = false;
+            var scale = options.scale || 1;
+            canvas.width = (options.width || util.width(domNode)) * scale;
+            canvas.height = (options.height || util.height(domNode)) * scale;
+            ctx.scale(scale, scale);
 
             if (options.bgcolor) {
-                var ctx = canvas.getContext('2d');
                 ctx.fillStyle = options.bgcolor;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
